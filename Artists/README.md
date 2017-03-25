@@ -10,3 +10,13 @@ We're not expecting brilliant looking apps, we're much more interested in functi
 We would love to see a git/svn repository with the history of how you built it (check-in early and often so 
 we can see your thought processes). Document any major decisions you made or choices you took. Working code is 
 preferred but non-functional with good testing and an explanation is also welcome.
+
+1. Create activity
+2. Create Network fragment that will encapsulate the network threading 
+3. In Fragment initiate the download callback and download task class which will return Result in main thread in post execute and 
+   and DownloadCallback will help to update Activity
+4. JsonParser will parse the data from server. and returns the respective objects.
+
+UI can be displayed in different fragment with RecycleView once we get callbacks from Result.
+   
+   
