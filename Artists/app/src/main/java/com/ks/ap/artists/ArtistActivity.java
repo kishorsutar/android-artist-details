@@ -5,11 +5,23 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.widget.Toast;
 
+import com.ks.ap.artists.Utilities.Artists;
+import com.ks.ap.artists.Utilities.DownloadCallBack;
+import com.ks.ap.artists.Utilities.JsonParser;
+import com.ks.ap.artists.fragments.ArtistListFragment;
 import com.ks.ap.artists.fragments.NetworkFragment;
 
-public class ArtistActivity extends FragmentActivity implements DownloadCallBack{
+import org.json.JSONException;
+
+import java.util.ArrayList;
+
+/**
+ * Artist activity
+ */
+public class ArtistActivity extends FragmentActivity implements DownloadCallBack {
 
     private static final String ARTIST_API = "/api/v1/artists.json";
     /**
@@ -20,7 +32,7 @@ public class ArtistActivity extends FragmentActivity implements DownloadCallBack
      * create the downloading flag which will prevent overlapping downloads for same event.
      */
     private boolean mDownloading = false;
-
+    public ArrayList<Artists> artistsArrayList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,9 +57,31 @@ public class ArtistActivity extends FragmentActivity implements DownloadCallBack
     }
 
     @Override
-    public void updateFromDownload(String result) {
+    public void updateFromDownload(NetworkFragment.DownloadTask.Result result) {
         // display the result on ui / create new Fragment to display the data.
-        Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+        if (null != result) {
+            if (null != result.mResult) {
+                JsonParser parser = new JsonParser();
+                try {
+                    artistsArrayList.clear();
+                    artistsArrayList = parser.getArtistDetails(result.mResult);
+                    loadList();
+                } catch (JSONException ex) {
+                    Toast.makeText(this, ex.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            } else {
+                Toast.makeText(this, result.mException.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        } else {
+            Toast.makeText(this, "No internet connection", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void loadList() {
+        FragmentManager manager = getSupportFragmentManager();
+        ArtistListFragment artistListFragment = new ArtistListFragment();
+        manager.beginTransaction().add(R.id.artist_fragment, artistListFragment, ArtistListFragment.TAG).commit();
+        artistListFragment.setAdapter(artistsArrayList);
     }
 
     @Override

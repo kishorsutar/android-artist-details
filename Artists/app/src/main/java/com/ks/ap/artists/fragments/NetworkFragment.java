@@ -11,7 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
-import com.ks.ap.artists.DownloadCallBack;
+import com.ks.ap.artists.Utilities.DownloadCallBack;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,7 +24,6 @@ import java.net.URL;
  * Created by kishorsutar on 3/25/17.
  * This class will handle all network operations.
  */
-
 public class NetworkFragment extends Fragment {
     public static final String TAG = "NetWorkFragment";
     private static final String URL_KEY = "UrlKey";
@@ -43,7 +42,6 @@ public class NetworkFragment extends Fragment {
         args.putString(URL_KEY, url);
         networkFragment.setArguments(args);
         fragmentManager.beginTransaction().add(networkFragment, TAG).commit();
-
         return networkFragment;
     }
 
@@ -85,7 +83,7 @@ public class NetworkFragment extends Fragment {
         }
     }
 
-    private class DownloadTask extends AsyncTask<String, Void, DownloadTask.Result> {
+    public class DownloadTask extends AsyncTask<String, Void, DownloadTask.Result> {
 
         private DownloadCallBack mCallBack;
         DownloadTask(DownloadCallBack<String> callBack) {
@@ -110,9 +108,9 @@ public class NetworkFragment extends Fragment {
         /**
          * This class will handle the result or exceptions occurred in DoInBackground method.
          */
-         class Result {
-            private String mResult;
-            private Exception mException;
+        public class Result {
+            public String mResult;
+            public Exception mException;
 
             private Result(String result) {
                 mResult = result;
@@ -149,9 +147,9 @@ public class NetworkFragment extends Fragment {
             super.onPostExecute(result);
             if (result != null && this.mCallBack != null) {
                 if (result.mException != null) {
-                    this.mCallBack.updateFromDownload(result.mException.getMessage());
+                    this.mCallBack.updateFromDownload(result);
                 } else if (result.mResult != null) {
-                    this.mCallBack.updateFromDownload(result.mResult);
+                    this.mCallBack.updateFromDownload(result);
                 }
                 this.mCallBack.finishedDownloading();
             }

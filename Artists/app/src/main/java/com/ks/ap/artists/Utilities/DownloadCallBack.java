@@ -1,11 +1,13 @@
-package com.ks.ap.artists;
+package com.ks.ap.artists.Utilities;
 
 import android.net.NetworkInfo;
 
+import com.ks.ap.artists.fragments.NetworkFragment;
+
 /**
  * Created by kishorsutar on 3/25/17.
+ * This interface will handle callbacks from Network which will be implemented by activity/fragment to update UI changes
  */
-
 public interface DownloadCallBack<T> {
 
     interface Progress {
@@ -19,7 +21,7 @@ public interface DownloadCallBack<T> {
      * This method should call from Main thread.
      * @param result
      */
-    void updateFromDownload(String result);
+    void updateFromDownload(NetworkFragment.DownloadTask.Result result);
 
     NetworkInfo getActiveNetworkInfo();
 
