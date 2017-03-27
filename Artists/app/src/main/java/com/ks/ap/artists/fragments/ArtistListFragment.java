@@ -1,5 +1,6 @@
 package com.ks.ap.artists.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ListFragment;
@@ -8,8 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ks.ap.artists.AlbumsListActivity;
 import com.ks.ap.artists.R;
 import com.ks.ap.artists.Utilities.Artists;
 
@@ -22,6 +25,7 @@ import java.util.ArrayList;
 public class ArtistListFragment extends ListFragment {
 public static String TAG = "ArtistListFragment";
 
+    private ArrayList<Artists> artistsArrayList = new ArrayList<>();
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -37,10 +41,31 @@ public static String TAG = "ArtistListFragment";
     public void setAdapter(ArrayList<Artists> listitmes) {
     setListAdapter(new ArtistAdapter(listitmes));
 }
+
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+        getArtistDetails(artistsArrayList.get(position));
+        Log.d("Selected artist value", artistsArrayList.get(position).getName());
+    }
+
+    private void getArtistDetails(Artists artistDetails) {
+        String artistId = artistDetails.getId();
+        String hrefStr = artistDetails.getHref();
+        Bundle bundle = new Bundle();
+        bundle.putString(AlbumsListActivity.ARTIST_ID, artistId);
+        bundle.putString(AlbumsListActivity.ARTIST_HREF, hrefStr);
+
+        Intent intent = new Intent(getActivity(), AlbumsListActivity.class);
+        intent.putExtras(bundle);
+        getActivity().startActivity(intent);
+    }
+
+
     class ArtistAdapter extends BaseAdapter {
 
-        private ArrayList<Artists> artistsArrayList = new ArrayList<>();
       public ArtistAdapter(ArrayList<Artists> items) {
+          artistsArrayList.clear();
           artistsArrayList = items;
       }
 
@@ -64,7 +89,6 @@ public static String TAG = "ArtistListFragment";
             View view = (LayoutInflater.from(getActivity()).inflate( R.layout.artist_list_item, null));
             TextView nameText = (TextView) view.findViewById(R.id.artist_name);
             nameText.setText(artistsArrayList.get(position).getName());
-            Log.d("Artist Array value", artistsArrayList.get(position).getName());
             return view;
         }
   }

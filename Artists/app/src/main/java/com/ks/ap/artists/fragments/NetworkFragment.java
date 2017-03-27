@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
 import com.ks.ap.artists.Utilities.DownloadCallBack;
+import com.ks.ap.artists.Utilities.UrlBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,7 +28,7 @@ import java.net.URL;
 public class NetworkFragment extends Fragment {
     public static final String TAG = "NetWorkFragment";
     private static final String URL_KEY = "UrlKey";
-    private static final String BASE_API_URL = "http://restpack-serializer-sample.herokuapp.com";
+
 
     private String mUrlString;
     private DownloadCallBack mCallBack;
@@ -36,7 +37,7 @@ public class NetworkFragment extends Fragment {
 /**
  * Static initializer for the fragment with unique URL string.
  */
-    public static NetworkFragment getInstance(FragmentManager fragmentManager, String url, Context context) {
+    public static NetworkFragment getInstance(FragmentManager fragmentManager, String url) {
         NetworkFragment networkFragment = new NetworkFragment();
         Bundle args = new Bundle();
         args.putString(URL_KEY, url);
@@ -49,7 +50,7 @@ public class NetworkFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // convert total URL for api call.
-        mUrlString = BASE_API_URL + getArguments().getString(URL_KEY);
+        mUrlString = UrlBuilder.BASE_API_URL + getArguments().getString(URL_KEY);
     }
 
     @Override
@@ -58,11 +59,6 @@ public class NetworkFragment extends Fragment {
         mCallBack = (DownloadCallBack) context;
     }
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        mCallBack = (DownloadCallBack) activity;
-    }
 
     @Override
     public void onDetach() {

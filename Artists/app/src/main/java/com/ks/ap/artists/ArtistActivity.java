@@ -38,7 +38,7 @@ public class ArtistActivity extends FragmentActivity implements DownloadCallBack
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_artist);
         // get the instance of network manager
-        mNetworkFragment = NetworkFragment.getInstance(getSupportFragmentManager(), ARTIST_API, this);
+        mNetworkFragment = NetworkFragment.getInstance(getSupportFragmentManager(), ARTIST_API);
 //        startDownload();
     }
 
