@@ -12,20 +12,22 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.ks.ap.artists.AlbumsListActivity;
 import com.ks.ap.artists.R;
+import com.ks.ap.artists.SongsListActivity;
+import com.ks.ap.artists.Utilities.Albums;
 import com.ks.ap.artists.Utilities.Artists;
 
 import java.util.ArrayList;
 
 /**
- * Created by kishorsutar on 3/26/17.
+ * Created by kishorsutar on 3/28/17.
  */
 
-public class ArtistListFragment extends ListFragment {
-public static String TAG = "ArtistListFragment";
+public class AlbumListFragment extends ListFragment {
 
-    private ArrayList<Artists> artistsArrayList = new ArrayList<>();
+    public static String TAG = "AlbumListFragment";
+
+    private ArrayList<Albums> albumsArrayList = new ArrayList<>();
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -38,37 +40,36 @@ public static String TAG = "ArtistListFragment";
 //        return view;
 //    }
 
-    public void setAdapter(ArrayList<Artists> listitmes) {
-    setListAdapter(new ArtistAdapter(listitmes));
-}
+    public void setAdapter(ArrayList<Albums> listitmes) {
+        setListAdapter(new ArtistAdapter(listitmes));
+    }
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-        getArtistDetails(artistsArrayList.get(position));
-        Log.d("Selected artist value", artistsArrayList.get(position).getName());
+        getArtistDetails(albumsArrayList.get(position));
+        Log.d("Selected album value", albumsArrayList.get(position).getAlbumTitle());
     }
 
-    private void getArtistDetails(Artists artistDetails) {
-        String artistId = artistDetails.getId();
-        String hrefStr = artistDetails.getHref();
+    private void getArtistDetails(Albums albums) {
+        String artistId = albums.getAlbumId();
+        String hrefStr = albums.getAlbSongHref();
         Bundle bundle = new Bundle();
-        bundle.putString(AlbumsListActivity.ARTIST_ID, artistId);
-        bundle.putString(AlbumsListActivity.ALBUMS_HREF, hrefStr);
-        bundle.putString(AlbumsListActivity.ARTIS_ALBUM_LINK, artistDetails.getLinkAlbum());
-        bundle.putString(AlbumsListActivity.ARTIST_SONGS_LINK, artistDetails.getLinkSongs());
-        Intent intent = new Intent(getActivity(), AlbumsListActivity.class);
+        bundle.putString(SongsListActivity.ALBUM_ID, artistId);
+        bundle.putString(SongsListActivity.SONGS_HREF, hrefStr);
+        bundle.putString(SongsListActivity.ALBUMS_SONGS_LINK, albums.getAlbSongHref());
+        bundle.putString(SongsListActivity.ALBUM_ARTISTS_LINK, albums.getAlbArtHref());
+        Intent intent = new Intent(getActivity(), SongsListActivity.class);
         intent.putExtras(bundle);
         getActivity().startActivity(intent);
     }
 
-
     class ArtistAdapter extends BaseAdapter {
 
-      public ArtistAdapter(ArrayList<Artists> items) {
-          artistsArrayList.clear();
-          artistsArrayList = items;
-      }
+        public ArtistAdapter(ArrayList<Albums> items) {
+            albumsArrayList.clear();
+            albumsArrayList = items;
+        }
 
         @Override
         public long getItemId(int position) {
@@ -76,21 +77,22 @@ public static String TAG = "ArtistListFragment";
         }
 
         @Override
-        public Artists getItem(int position) {
-            return artistsArrayList.get(position);
+        public Albums getItem(int position) {
+            return albumsArrayList.get(position);
         }
 
         @Override
         public int getCount() {
-            return artistsArrayList.size();
+            return albumsArrayList.size();
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             View view = (LayoutInflater.from(getActivity()).inflate( R.layout.artist_list_item, null));
             TextView nameText = (TextView) view.findViewById(R.id.artist_name);
-            nameText.setText(artistsArrayList.get(position).getName());
+            nameText.setText(albumsArrayList.get(position).getAlbumTitle());
             return view;
         }
-  }
+    }
+
 }

@@ -43,5 +43,25 @@ public class Artists {
     private String website;
     private String href;
 
+    public String getLinkAlbum() {
+        return linkAlbum;
+    }
+
+    public void setLinkAlbum(String linkAlbum) {
+        this.linkAlbum = linkAlbum;
+    }
+
+    public String getLinkSongs() {
+        return linkSongs;
+    }
+
+    public void setLinkSongs(String linkSongs) {
+        this.linkSongs = linkSongs;
+    }
+
+    private String linkAlbum;
+    private String linkSongs;
+
+
 
 }

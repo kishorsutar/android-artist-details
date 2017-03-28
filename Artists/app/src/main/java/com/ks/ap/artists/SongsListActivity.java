@@ -9,42 +9,40 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.widget.Toast;
 
-import com.ks.ap.artists.Utilities.Albums;
 import com.ks.ap.artists.Utilities.DownloadCallBack;
 import com.ks.ap.artists.Utilities.JsonParser;
-import com.ks.ap.artists.fragments.AlbumListFragment;
-import com.ks.ap.artists.fragments.ArtistListFragment;
+import com.ks.ap.artists.Utilities.Songs;
 import com.ks.ap.artists.fragments.NetworkFragment;
+import com.ks.ap.artists.fragments.SongsListFragment;
 
 import org.json.JSONException;
 
 import java.util.ArrayList;
 
 /**
- * Created by kishorsutar on 3/27/17.
- * This activity will show the albums list
+ * Created by kishorsutar on 3/28/17.
  */
 
-public class AlbumsListActivity extends FragmentActivity implements DownloadCallBack {
+public class SongsListActivity extends FragmentActivity implements DownloadCallBack {
 
 
-    public static String ARTIST_ID = "artistId";
-    public static String ALBUMS_HREF = "albumHref";
-    public static String ARTIS_ALBUM_LINK = "artists.albums";
-    public static String ARTIST_SONGS_LINK = "artists.songs";
+    public static String ALBUM_ID = "albumId";
+    public static String SONGS_HREF = "songsHref";
+    public static String ALBUMS_SONGS_LINK = "albums.songs";
+    public static String ALBUM_ARTISTS_LINK = "albums.artist";
     private NetworkFragment mNetworkFragment;
     private boolean mDownloading = false;
 
-    private ArrayList<Albums> albumsArrayList = new ArrayList<>();
+    private ArrayList<Songs> songsArrayList = new ArrayList<>();
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_album);
+        setContentView(R.layout.activity_songs);
         Bundle bundle = getIntent().getExtras();
-        String[] tempArrayForAlbum = bundle.getString(ARTIS_ALBUM_LINK).split("=");
-        String albumLink = tempArrayForAlbum[0] + "=" + bundle.getString(ARTIST_ID);
+        String[] tempArrayForSong = bundle.getString(ALBUMS_SONGS_LINK).split("=");
+        String songsLink = tempArrayForSong[0] + "=" + bundle.getString(ALBUM_ID);
         mNetworkFragment = NetworkFragment.getInstance(getSupportFragmentManager(),
-                albumLink);
+                songsLink);
     }
 
     private void startDownload() {
@@ -68,8 +66,8 @@ public class AlbumsListActivity extends FragmentActivity implements DownloadCall
                 JsonParser parser = new JsonParser();
 //                Toast.makeText(this, result.mResult, Toast.LENGTH_LONG).show();
                 try {
-                    albumsArrayList.clear();
-                    albumsArrayList = parser.getAlbumDetails(result.mResult);
+                    songsArrayList.clear();
+                    songsArrayList = parser.getAlbumSongsDetails(result.mResult);
                     loadList();
                 } catch (JSONException ex) {
                     Toast.makeText(this, ex.getMessage(), Toast.LENGTH_LONG).show();
@@ -83,9 +81,9 @@ public class AlbumsListActivity extends FragmentActivity implements DownloadCall
     }
     private void loadList() {
         FragmentManager manager = getSupportFragmentManager();
-        AlbumListFragment albumListFragment = new AlbumListFragment();
-        manager.beginTransaction().add(R.id.album_container, albumListFragment, AlbumListFragment.TAG).commit();
-        albumListFragment.setAdapter(albumsArrayList);
+        SongsListFragment albumListFragment = new SongsListFragment();
+        manager.beginTransaction().add(R.id.songs_container, albumListFragment, SongsListFragment.TAG).commit();
+        albumListFragment.setAdapter(songsArrayList);
     }
     @Override
     public NetworkInfo getActiveNetworkInfo() {
@@ -107,4 +105,5 @@ public class AlbumsListActivity extends FragmentActivity implements DownloadCall
             mNetworkFragment.cancelDownload();
         }
     }
+
 }

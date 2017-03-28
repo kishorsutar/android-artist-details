@@ -21,6 +21,9 @@
         <activity android:name=".AlbumsListActivity">
 
         </activity>
+        <activity android:name=".SongsListActivity">
+
+        </activity>
 
     </application>
 

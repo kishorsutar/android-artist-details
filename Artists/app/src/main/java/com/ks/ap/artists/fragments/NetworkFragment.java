@@ -183,7 +183,7 @@ public class NetworkFragment extends Fragment {
                 // publish the result.
 //                publishProgress(DownloadCallBack.Progress.GET_INPUT_STREAM_SUCCESS, 0);
                 if (null != inputStream) {
-                    result = readInputStream(inputStream, 1040);
+                    result = readInputStream(inputStream, 2048);
                 }
             }
            finally {
