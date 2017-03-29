@@ -20,12 +20,14 @@ import java.util.ArrayList;
 
 /**
  * Created by kishorsutar on 3/26/17.
+ * This Fragment will populate list of artists
  */
 
 public class ArtistListFragment extends ListFragment {
-public static String TAG = "ArtistListFragment";
+    public static String TAG = "ArtistListFragment";
 
     private ArrayList<Artists> artistsArrayList = new ArrayList<>();
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -39,8 +41,8 @@ public static String TAG = "ArtistListFragment";
 //    }
 
     public void setAdapter(ArrayList<Artists> listitmes) {
-    setListAdapter(new ArtistAdapter(listitmes));
-}
+        setListAdapter(new ArtistAdapter(listitmes));
+    }
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
@@ -65,10 +67,10 @@ public static String TAG = "ArtistListFragment";
 
     class ArtistAdapter extends BaseAdapter {
 
-      public ArtistAdapter(ArrayList<Artists> items) {
-          artistsArrayList.clear();
-          artistsArrayList = items;
-      }
+        public ArtistAdapter(ArrayList<Artists> items) {
+            artistsArrayList.clear();
+            artistsArrayList = items;
+        }
 
         @Override
         public long getItemId(int position) {
@@ -87,10 +89,10 @@ public static String TAG = "ArtistListFragment";
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            View view = (LayoutInflater.from(getActivity()).inflate( R.layout.artist_list_item, null));
+            View view = (LayoutInflater.from(getActivity()).inflate(R.layout.artist_list_item, null));
             TextView nameText = (TextView) view.findViewById(R.id.artist_name);
             nameText.setText(artistsArrayList.get(position).getName());
             return view;
         }
-  }
+    }
 }

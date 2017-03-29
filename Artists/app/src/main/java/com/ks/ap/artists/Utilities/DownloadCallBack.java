@@ -17,8 +17,10 @@ public interface DownloadCallBack<T> {
         int PROCESS_INPUT_STREAM_PROGRESS = 2;
         int PROCESS_INPUT_STREAM_SUCCESS = 3;
     }
+
     /**
      * This method should call from Main thread.
+     *
      * @param result
      */
     void updateFromDownload(NetworkFragment.DownloadTask.Result result);
@@ -27,6 +29,7 @@ public interface DownloadCallBack<T> {
 
     /**
      * Indicate progress changes ranges between 0-100.
+     *
      * @param progressCode
      * @param parentComplete
      */

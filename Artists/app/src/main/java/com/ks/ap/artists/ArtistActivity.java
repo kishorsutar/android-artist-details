@@ -33,6 +33,7 @@ public class ArtistActivity extends FragmentActivity implements DownloadCallBack
      */
     private boolean mDownloading = false;
     public ArrayList<Artists> artistsArrayList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

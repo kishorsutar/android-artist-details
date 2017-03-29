@@ -1,7 +1,6 @@
 package com.ks.ap.artists.fragments;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -34,9 +33,9 @@ public class NetworkFragment extends Fragment {
     private DownloadCallBack mCallBack;
     private DownloadTask mDownloadTask;
 
-/**
- * Static initializer for the fragment with unique URL string.
- */
+    /**
+     * Static initializer for the fragment with unique URL string.
+     */
     public static NetworkFragment getInstance(FragmentManager fragmentManager, String url) {
         NetworkFragment networkFragment = new NetworkFragment();
         Bundle args = new Bundle();
@@ -74,7 +73,7 @@ public class NetworkFragment extends Fragment {
     }
 
     public void cancelDownload() {
-        if(mDownloadTask != null) {
+        if (mDownloadTask != null) {
             mDownloadTask.cancel(true);
         }
     }
@@ -82,22 +81,25 @@ public class NetworkFragment extends Fragment {
     public class DownloadTask extends AsyncTask<String, Void, DownloadTask.Result> {
 
         private DownloadCallBack mCallBack;
+
         DownloadTask(DownloadCallBack<String> callBack) {
             setCallBack(callBack);
         }
+
         private void setCallBack(DownloadCallBack mCallBack) {
             this.mCallBack = mCallBack;
         }
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             NetworkInfo networkInfo = this.mCallBack.getActiveNetworkInfo();
             if (null == networkInfo || !networkInfo.isConnected() ||
-                (networkInfo.getType() != ConnectivityManager.TYPE_WIFI &&
-                        networkInfo.getType() != ConnectivityManager.TYPE_MOBILE)) {
+                    (networkInfo.getType() != ConnectivityManager.TYPE_WIFI &&
+                            networkInfo.getType() != ConnectivityManager.TYPE_MOBILE)) {
                 this.mCallBack.updateFromDownload(null);
-                    cancel(true);
-                }
+                cancel(true);
+            }
         }
 
 
@@ -111,6 +113,7 @@ public class NetworkFragment extends Fragment {
             private Result(String result) {
                 mResult = result;
             }
+
             private Result(Exception exception) {
                 mException = exception;
             }
@@ -119,19 +122,17 @@ public class NetworkFragment extends Fragment {
         @Override
         protected DownloadTask.Result doInBackground(String... urls) {
             Result result = null;
-            if(!isCancelled() && null != urls && urls.length > 0) {
+            if (!isCancelled() && null != urls && urls.length > 0) {
                 String urlString = urls[0];
                 try {
                     URL url = new URL(urlString);
                     String resultString = downloadUrl(url);
                     if (null != resultString) {
                         result = new Result(resultString);
-                    }
-                    else {
+                    } else {
                         throw new IOException("No response received");
                     }
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     result = new Result(e);
                 }
             }
@@ -156,7 +157,7 @@ public class NetworkFragment extends Fragment {
             super.onCancelled();
         }
 
-        private String downloadUrl(URL url) throws  IOException{
+        private String downloadUrl(URL url) throws IOException {
             String result = null;
             InputStream inputStream = null;
             HttpURLConnection connection = null;
@@ -176,7 +177,7 @@ public class NetworkFragment extends Fragment {
 //                publishProgress(DownloadCallBack.Progress.CONNECT_SUCCESS);
                 int responseCode = connection.getResponseCode();
                 if (responseCode != HttpURLConnection.HTTP_OK) {
-                    throw new IOException("Http error code: "+ responseCode);
+                    throw new IOException("Http error code: " + responseCode);
                 }
                 // retrieve the response as inputstream
                 inputStream = connection.getInputStream();
@@ -185,8 +186,7 @@ public class NetworkFragment extends Fragment {
                 if (null != inputStream) {
                     result = readInputStream(inputStream, 2048);
                 }
-            }
-           finally {
+            } finally {
 
             }
 
@@ -195,12 +195,13 @@ public class NetworkFragment extends Fragment {
 
         /**
          * Read the input stram and convert to string.
-         * @param stream - input stream value
+         *
+         * @param stream    - input stream value
          * @param maxLength - length of in put stream to process
          * @return resultString
          * @throws IOException IoException if input string is missing
          */
-        private String readInputStream(InputStream stream, int maxLength) throws IOException{
+        private String readInputStream(InputStream stream, int maxLength) throws IOException {
             String resultString = null;
             // Read inputstream using UTF-8
             InputStreamReader streamReader = new InputStreamReader(stream, "UTF-8");

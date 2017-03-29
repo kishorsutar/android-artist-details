@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 /**
  * Created by kishorsutar on 3/28/17.
+ * This Activity will show list of Songs for selected albums
  */
 
 public class SongsListActivity extends FragmentActivity implements DownloadCallBack {
@@ -34,6 +35,7 @@ public class SongsListActivity extends FragmentActivity implements DownloadCallB
     private boolean mDownloading = false;
 
     private ArrayList<Songs> songsArrayList = new ArrayList<>();
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,12 +81,14 @@ public class SongsListActivity extends FragmentActivity implements DownloadCallB
             Toast.makeText(this, "No internet connection", Toast.LENGTH_LONG).show();
         }
     }
+
     private void loadList() {
         FragmentManager manager = getSupportFragmentManager();
         SongsListFragment albumListFragment = new SongsListFragment();
         manager.beginTransaction().add(R.id.songs_container, albumListFragment, SongsListFragment.TAG).commit();
         albumListFragment.setAdapter(songsArrayList);
     }
+
     @Override
     public NetworkInfo getActiveNetworkInfo() {
         ConnectivityManager manager =

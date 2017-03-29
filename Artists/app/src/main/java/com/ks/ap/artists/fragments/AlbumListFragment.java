@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.ks.ap.artists.R;
 import com.ks.ap.artists.SongsListActivity;
 import com.ks.ap.artists.Utilities.Albums;
-import com.ks.ap.artists.Utilities.Artists;
 
 import java.util.ArrayList;
 
@@ -28,6 +27,7 @@ public class AlbumListFragment extends ListFragment {
     public static String TAG = "AlbumListFragment";
 
     private ArrayList<Albums> albumsArrayList = new ArrayList<>();
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -88,7 +88,7 @@ public class AlbumListFragment extends ListFragment {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            View view = (LayoutInflater.from(getActivity()).inflate( R.layout.artist_list_item, null));
+            View view = (LayoutInflater.from(getActivity()).inflate(R.layout.artist_list_item, null));
             TextView nameText = (TextView) view.findViewById(R.id.artist_name);
             nameText.setText(albumsArrayList.get(position).getAlbumTitle());
             return view;

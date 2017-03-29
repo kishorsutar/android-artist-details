@@ -34,7 +34,6 @@ public class JsonParser {
     private static String YEAR = "year";
 
 
-
     public ArrayList<Artists> getArtistDetails(String jsonString) throws JSONException {
 
         JSONObject artistsJson = createJsonFromString(jsonString);

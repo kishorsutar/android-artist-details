@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 /**
  * Created by kishorsutar on 3/28/17.
+ * List od Songs for selected album
  */
 
 public class SongsListFragment extends ListFragment {
@@ -25,6 +26,7 @@ public class SongsListFragment extends ListFragment {
     public static String TAG = "SongsListFragment";
 
     private ArrayList<Songs> songsArrayList = new ArrayList<>();
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -85,7 +87,7 @@ public class SongsListFragment extends ListFragment {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            View view = (LayoutInflater.from(getActivity()).inflate( R.layout.artist_list_item, null));
+            View view = (LayoutInflater.from(getActivity()).inflate(R.layout.artist_list_item, null));
             TextView nameText = (TextView) view.findViewById(R.id.artist_name);
             nameText.setText(songsArrayList.get(position).getSongTitle());
             return view;

@@ -13,7 +13,6 @@ import com.ks.ap.artists.Utilities.Albums;
 import com.ks.ap.artists.Utilities.DownloadCallBack;
 import com.ks.ap.artists.Utilities.JsonParser;
 import com.ks.ap.artists.fragments.AlbumListFragment;
-import com.ks.ap.artists.fragments.ArtistListFragment;
 import com.ks.ap.artists.fragments.NetworkFragment;
 
 import org.json.JSONException;
@@ -36,6 +35,7 @@ public class AlbumsListActivity extends FragmentActivity implements DownloadCall
     private boolean mDownloading = false;
 
     private ArrayList<Albums> albumsArrayList = new ArrayList<>();
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,12 +81,14 @@ public class AlbumsListActivity extends FragmentActivity implements DownloadCall
             Toast.makeText(this, "No internet connection", Toast.LENGTH_LONG).show();
         }
     }
+
     private void loadList() {
         FragmentManager manager = getSupportFragmentManager();
         AlbumListFragment albumListFragment = new AlbumListFragment();
         manager.beginTransaction().add(R.id.album_container, albumListFragment, AlbumListFragment.TAG).commit();
         albumListFragment.setAdapter(albumsArrayList);
     }
+
     @Override
     public NetworkInfo getActiveNetworkInfo() {
         ConnectivityManager manager =
